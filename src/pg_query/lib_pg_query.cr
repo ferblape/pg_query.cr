@@ -9,20 +9,36 @@ lib LibPgQuery
     context : LibC::Char*  # additional context (optional, can be NULL)
   end
 
+  struct PgQueryParseResult
+    parse_tree : LibC::Char*
+    stderr_buffer : LibC::Char*
+    error : PgQueryError*
+  end
+
+  struct PgQueryPlpgsqlParseResult
+    plpgsql_funcs : LibC::Char*
+    error : PgQueryError*
+  end
+
   struct PgQueryFingerprintResult
     hexdigest : LibC::Char*
     stderr_buffer : LibC::Char*
     error : PgQueryError*
   end
 
-  # PgQueryNormalizeResult pg_query_normalize(const char* input);
-  # PgQueryParseResult pg_query_parse(const char* input);
-  # PgQueryPlpgsqlParseResult pg_query_parse_plpgsql(const char* input);
+  struct PgQueryNormalizeResult
+    normalized_query : LibC::Char*
+    error : PgQueryError*
+  end
+
+  fun pg_query_normalize(input : LibC::Char*) : PgQueryNormalizeResult
+  fun pg_query_parse(input : LibC::Char*) : PgQueryParseResult
+  fun pg_query_parse_plpgsql(input : LibC::Char*) : PgQueryPlpgsqlParseResult
 
   fun pg_query_fingerprint(input : LibC::Char*) : PgQueryFingerprintResult
 
-  # void pg_query_free_normalize_result(PgQueryNormalizeResult result);
-  # void pg_query_free_parse_result(PgQueryParseResult result);
-  # void pg_query_free_plpgsql_parse_result(PgQueryPlpgsqlParseResult result);
+  fun pg_query_free_normalize_result(result : PgQueryNormalizeResult) : Void
+  fun pg_query_free_parse_result(result : PgQueryParseResult) : Void
+  fun pg_query_free_plpgsql_parse_result(result : PgQueryPlpgsqlParseResult) : Void
   fun pg_query_free_fingerprint_result(result : PgQueryFingerprintResult) : Void
 end
