@@ -4,6 +4,9 @@ version: 0.1.0
 authors:
   - Hugo Parente Lima <hugo.pl@gmail.com>
 
+scripts:
+  postinstall: make configure all
+
 crystal: 0.33.0
 
 license: MIT
