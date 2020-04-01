@@ -4,7 +4,8 @@ module PgQuery
   class Query
     getter! parse_tree : JSON::Any?
 
-    def initialize(@query : String)
+    # Use `PgQuery.parse` to create Query objects.
+    protected def initialize(@query : String)
       result = LibPgQuery.pg_query_parse(@query)
       raise ParserError.new(result) unless result.error.null?
 
