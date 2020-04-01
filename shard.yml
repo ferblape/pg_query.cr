@@ -1,12 +1,13 @@
 name: pg_query
 version: 0.1.0
-
+license: MIT
+crystal: 0.33.0
 authors:
   - Hugo Parente Lima <hugo.pl@gmail.com>
+
+description: Crystal bindings for libpg_query.
 
 scripts:
   postinstall: make configure all
 
-crystal: 0.33.0
 
-license: MIT
