@@ -19,9 +19,20 @@ module PgQuery
       LibPgQuery.pg_query_free_parse_result(result) unless result.nil?
     end
 
-    # Return query fingerprint, same as PgQuery.fingerprint
+    # Returns query fingerprint, same as PgQuery.fingerprint
     def fingerprint
       PgQuery.fingerprint(@query)
+    end
+
+    # Returns true/false if the query is a EXPLAIN query.
+    def explain?
+      tree = parse_tree.as_a?
+      return false if tree.nil? || tree.empty?
+
+      raw_stmt = tree[0]["RawStmt"]?
+      return false if raw_stmt.nil?
+
+      return raw_stmt["stmt"].as_h.has_key?("ExplainStmt")
     end
   end
 end

@@ -30,6 +30,24 @@ describe PgQuery do
     end
   end
 
+  it "identify explain queries" do
+    query = PgQuery.parse("EXPLAIN SELECT 42")
+    query.explain?.should eq(true)
+
+    query = PgQuery.parse("-- Hi\n" \
+                          " EXPLAIN SELECT 42")
+    query.explain?.should eq(true)
+
+    query = PgQuery.parse("EXPLAIN ANALYZE SELECT * FROM whatever")
+    query.explain?.should eq(true)
+
+    query = PgQuery.parse("/* EXPLAIN SELECT 42 */")
+    query.explain?.should eq(false)
+
+    query = PgQuery.parse("SELECT 42")
+    query.explain?.should eq(false)
+  end
+
   pending "parses real queries" do
     query = PgQuery.parse("SELECT memory_total_bytes, memory_free_bytes, memory_pagecache_bytes, memory_buffers_bytes, memory_applications_bytes, (memory_swap_total_bytes - memory_swap_free_bytes) AS swap, date_part($0, s.collected_at) AS collected_at FROM snapshots s JOIN system_snapshots ON (snapshot_id = s.id) WHERE s.database_id = $0 AND s.collected_at BETWEEN $0 AND $0 ORDER BY collected_at")
     query.tables.should eq %w(snapshots system_snapshots)

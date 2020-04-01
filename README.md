@@ -29,6 +29,10 @@ puts PgQuery.fingerprint("SELECT 'hello world'")
 query = PgQuery.parse("SELECT foo FROM bar WHERE x > 4 AND Y LIKE 'something'")
 puts query.parse_tree # Returns a Json::Any object.
 # [{"RawStmt" => {"stmt" => {"SelectStmt" => {"targetList" => [{"ResTarget" => {"val" => {"ColumnRef" => {"fields" => [{"String" => {"str" => "foo"}}], "location" => 7}}, "location" => 7}}], "fromClause" => [{"RangeVar" => {"relname" => "bar", "inh" => true, "relpersistence" => "p", "location" => 16}}], "whereClause" => {"BoolExpr" => {"boolop" => 0, "args" => [{"A_Expr" => {"kind" => 0, "name" => [{"String" => {"str" => ">"}}], "lexpr" => {"ColumnRef" => {"fields" => [{"String" => {"str" => "x"}}], "location" => 26}}, "rexpr" => {"A_Const" => {"val" => {"Integer" => {"ival" => 4}}, "location" => 30}}, "location" => 28}}, {"A_Expr" => {"kind" => 8, "name" => [{"String" => {"str" => "~~"}}], "lexpr" => {"ColumnRef" => {"fields" => [{"String" => {"str" => "y"}}], "location" => 36}}, "rexpr" => {"A_Const" => {"val" => {"String" => {"str" => "something"}}, "location" => 43}}, "location" => 38}}], "location" => 32}}, "op" => 0}}}}]
+
+query = PgQuery.parse("EXPLAIN SELECT foo FROM bar")
+puts query.explain?
+# true
 ```
 
 ## TODO
