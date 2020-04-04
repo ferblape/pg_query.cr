@@ -37,7 +37,7 @@ puts query.explain?
 
 ## TODO
 
-Helper methods on PgQuery::Query object to fetch information about the query as tables used, columns selected, etc... aren't ready yet.
+Helper methods on PgQuery::Query object to fetch information like what tables were used in the query, what columns were selected, etc... aren't implemented.
 
 ## Contributing
 
